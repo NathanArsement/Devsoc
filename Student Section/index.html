@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Ordering Website</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Load Babel for JSX support -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./js/script.js"></script>
+  <link rel="stylesheet" href="./css/style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -62,8 +68,7 @@
     
     <!-- Main Content -->
     <div id="main-content">
-        <h1>Welcome to Food Ordering</h1>
-        <label for="restaurant">Select a Restaurant:</label>
+        
         <select id="restaurant" onchange="loadMenu()">
             <option value="">--Choose--</option>
             <!-- <option value="N">N Block</option> -->
@@ -86,74 +91,18 @@
                 document.getElementById('main-content').style.display = 'block';
             }, 2000);
         }
-
+        var db = {};
         fetch("http://127.0.0.1:5000/data",{mode:"no-cors"})
-            .then(response => response.json())
-            .then(data => console.log(data))  // Replace with UI rendering logic
+            .then(response => {
+                response.json;
+            })
+            .then(data => {
+                db=data;
+            })
             .catch(error => console.error("Error:", error));
+            console.log(db);
 
-        // Sample menu data
-        const menus = {
-            pizzaHut: [
-                { name: "Pepperoni Pizza", price: 10 },
-                { name: "Cheese Pizza", price: 8 }
-            ],
-            mcdonalds: [
-                { name: "Big Mac", price: 5 },
-                { name: "McChicken", price: 4 }
-            ]
-        };
-        
-        let cart = [];
-
-        // Load menu based on restaurant selection
-        function loadMenu() {
-            const restaurant = document.getElementById("restaurant").value;
-            const menuDiv = document.getElementById("menu");
-            menuDiv.innerHTML = "";
-            
-            if (menus[restaurant]) {
-                menus[restaurant].forEach(item => {
-                    const div = document.createElement("div");
-                    div.className = "menu-item";
-                    div.innerHTML = `${item.name} - $${item.price} <button onclick='addToCart("${item.name}", ${item.price})'>Add</button>`;
-                    menuDiv.appendChild(div);
-                });
-            }
-        }
-        
-        // Add item to cart
-        function addToCart(name, price) {
-            cart.push({ name, price });
-            updateCart();
-        }
-        
-        // Update cart display
-        function updateCart() {
-            const cartDiv = document.getElementById("cart");
-            cartDiv.innerHTML = "";
-            if (cart.length === 0) {
-                cartDiv.style.display = "none";
-                return;
-            }
-            cartDiv.style.display = "block";
-            cart.forEach(item => {
-                const div = document.createElement("div");
-                div.innerText = `${item.name} - $${item.price}`;
-                cartDiv.appendChild(div);
-            });
-        }
-        
-        // Place order
-        function placeOrder() {
-            if (cart.length === 0) {
-                alert("Cart is empty!");
-                return;
-            }
-            alert("Order placed successfully!");
-            cart = [];
-            updateCart();
-        }
     </script>
+    
 </body>
 </html>
