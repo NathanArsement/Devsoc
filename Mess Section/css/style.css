@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.menu-container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+button {
+    margin-left: 10px;
+}

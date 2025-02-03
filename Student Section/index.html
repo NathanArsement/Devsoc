@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Night Mess Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: white;
+            text-align: center;
+        }
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .item {
+            background: #16213e;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .order-summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: #0f3460;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Night Mess Menu</h1>
+    <div class="menu" id="menu">
+        <!-- Menu items will be loaded here -->
+    </div>
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        <ul id="order-list"></ul>
+        <button onclick="checkout()">Checkout</button>
+    </div>
+
+    <script>
+        const menuItems = [
+            { name: "Burger", price: 100 },
+            { name: "Pizza", price: 200 },
+            { name: "Fries", price: 80 },
+            { name: "Pasta", price: 150 }
+        ];
+
+        const menuContainer = document.getElementById("menu");
+        const orderList = document.getElementById("order-list");
+        let order = [];
+
+        function loadMenu() {
+            menuItems.forEach(item => {
+                const div = document.createElement("div");
+                div.classList.add("item");
+                div.innerHTML = `<strong>${item.name}</strong><br>₹${item.price}`;
+                div.onclick = () => addToOrder(item);
+                menuContainer.appendChild(div);
+            });
+        }
+
+        function addToOrder(item) {
+            order.push(item);
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            orderList.innerHTML = "";
+            order.forEach((item, index) => {
+                const li = document.createElement("li");
+                li.textContent = `${item.name} - ₹${item.price}`;
+                orderList.appendChild(li);
+            });
+        }
+
+        function checkout() {
+            if (order.length === 0) {
+                alert("Your order is empty!");
+                return;
+            }
+            const total = order.reduce((sum, item) => sum + item.price, 0);
+            alert(`Total: ₹${total}\nThank you for ordering!`);
+            order = [];
+            updateOrderSummary();
+        }
+
+        loadMenu();
+    </script>
+</body>
+</html>

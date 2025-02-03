@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu Editor</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/script.js"></script>
+    <script src="./js/backend.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#">Menu</a>
+            <a href="#">Orders</a>
+            <a href="#">Clients</a>
+            <a href="#">Contact</a>
+          </div>
+        <div class="header">
+
+        </div>
+        <div class="base">
+            <div class="menu-container">
+                <ul id="menu-list"></ul>
+                <input type="text" id="item-name" placeholder="Enter new item">
+                <input type="text" id="item-price" placeholder="Enter price">
+                <button onclick="addItem()">Add Item</button>
+            </div>
+        </div>
+    </div>
+    
+
+
+</body>
+</html>
