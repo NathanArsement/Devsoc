@@ -7,32 +7,79 @@
     <title>Restaurant Menu Editor</title>
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/script.js"></script>
-    <script src="./js/backend.js"></script>
+    <script type="module" src="./js/backend.js"></script>
+    <script src="https://kit.fontawesome.com/518846698d.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="main">
+    <div>
+        <div class="sidebar">
+            
+            <table style="width: 100%;">
+                <a href="#">
+                    <tr style="height: 10vh;">
+                       <td>
+                        <span class="bars" onclick="openNav()">
+                            <i class="fas fa-bars fa-xl"></i>
+                        </span>
+                       </td>
+                    </tr>
+                </a>
+                <a href="#">
+                    <tr style="height: 10vh;">
+                        <td><i class="fas fa-bowl-food fa-xl"></i></td>
+                    </tr>
+                </a>
+                <a href="#">
+                    <tr style="height: 10vh;">
+                        <td><i class="fas fa-rectangle-list fa-xl"></i></td>
+                    </tr>
+                </a>
+                <a href="#">
+                    <tr style="height: 10vh;">
+                        <td><i class="fas fa-cash-register fa-xl"></i></td>
+                    </tr>
+                </a>
+            </table>
+        </div>
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="#">Menu</a>
-            <a href="#">Orders</a>
-            <a href="#">Clients</a>
-            <a href="#">Contact</a>
-          </div>
-        <div class="header">
-
+            <table style="width: 100%;">
+                <a href="#">
+                    <tr style="height: 10vh;">
+                        <td><i class="fas fa-bowl-food fa-xl"></i></td>
+                        <td style="width: 70%;">Menu</td>
+                    </tr>
+                </a>
+                <a href="#">
+                    <tr style="height: 10vh;">
+                        <td><i class="fas fa-rectangle-list fa-xl"></i></td>
+                        <td>Orders</td>
+                    </tr>
+                </a>
+                <a href="#">
+                    <tr style="height: 10vh;">
+                        <td><i class="fas fa-cash-register fa-xl"></i></td>
+                        <td>Analytics</td>
+                    </tr>
+                </a>
+            </table>
         </div>
-        <div class="base">
-            <div class="menu-container">
-                <ul id="menu-list"></ul>
-                <input type="text" id="item-name" placeholder="Enter new item">
-                <input type="text" id="item-price" placeholder="Enter price">
-                <button onclick="addItem()">Add Item</button>
+        <div class="main">
+            <div class="base">
+                <div class="menu-container">
+                    <ul id="menu-list"></ul>
+                    <input type="text" id="item-name" placeholder="Enter new item">
+                    <input type="text" id="item-price" placeholder="Enter price">
+                    <button onclick="addItem()">Add Item</button>
+                </div>
             </div>
         </div>
+       
     </div>
-    
+
 
 
 </body>
+
 </html>

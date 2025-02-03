@@ -1,5 +1,6 @@
-const express = require("express");
-const cors = require("cors");
+import cors from "cors";
+import express,{json} from "express";
+
 const app = express();
 const port = 3000;
 
@@ -19,6 +20,11 @@ app.post("/set-menu", (req, res) => {
 });
 
 let orders = [];
+
+// Get menu items
+app.get("/menu", (req, res) => {
+    res.json(menuItems);
+});
 
 // Get menu items
 app.get("/menu", (req, res) => {

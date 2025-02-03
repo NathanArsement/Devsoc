@@ -3,94 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Night Mess Application</title>
+    <title>Food Ordering Website</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #1a1a2e;
-            color: white;
             text-align: center;
         }
-        .menu {
+        
+        /* Loading animation */
+        #loading {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            margin-top: 20px;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+            position: fixed;
+            width: 100%;
+            z-index: 999;
         }
-        .item {
-            background: #16213e;
-            padding: 15px;
-            margin: 10px;
-            border-radius: 8px;
-            cursor: pointer;
+        
+        #loading img {
+            width: 100px;
+            height: 100px;
+            animation: spin 2s linear infinite;
         }
-        .order-summary {
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Main content */
+        #main-content {
+            display: none;
+            margin-top: 50px;
+        }
+        
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        #cart {
             margin-top: 20px;
-            padding: 15px;
-            background: #0f3460;
-            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Night Mess Menu</h1>
-    <div class="menu" id="menu">
-        <!-- Menu items will be loaded here -->
+    <!-- Loading Animation -->
+    <div id="loading">
+        <img src="./image/logo.png" alt="Loading">
     </div>
-    <div class="order-summary">
-        <h2>Order Summary</h2>
-        <ul id="order-list"></ul>
-        <button onclick="checkout()">Checkout</button>
+    
+    <!-- Main Content -->
+    <div id="main-content">
+        <h1>Welcome to Food Ordering</h1>
+        <label for="restaurant">Select a Restaurant:</label>
+        <select id="restaurant" onchange="loadMenu()">
+            <option value="">--Choose--</option>
+            <!-- <option value="N">N Block</option> -->
+        </select>
+        
+        <h2>Menu</h2>
+        <div id="menu"></div>
+        
+        <h2>Cart</h2>
+        <div id="cart"></div>
+        <button onclick="placeOrder()">Place Order</button>
     </div>
-
+    
     <script>
-        const menuItems = [
-            { name: "Burger", price: 100 },
-            { name: "Pizza", price: 200 },
-            { name: "Fries", price: 80 },
-            { name: "Pasta", price: 150 }
-        ];
+        
+        
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }, 2000);
+        }
 
-        const menuContainer = document.getElementById("menu");
-        const orderList = document.getElementById("order-list");
-        let order = [];
+        fetch("http://127.0.0.1:5000/data",{mode:"no-cors"})
+            .then(response => response.json())
+            .then(data => console.log(data))  // Replace with UI rendering logic
+            .catch(error => console.error("Error:", error));
 
+        // Sample menu data
+        const menus = {
+            pizzaHut: [
+                { name: "Pepperoni Pizza", price: 10 },
+                { name: "Cheese Pizza", price: 8 }
+            ],
+            mcdonalds: [
+                { name: "Big Mac", price: 5 },
+                { name: "McChicken", price: 4 }
+            ]
+        };
+        
+        let cart = [];
+
+        // Load menu based on restaurant selection
         function loadMenu() {
-            menuItems.forEach(item => {
-                const div = document.createElement("div");
-                div.classList.add("item");
-                div.innerHTML = `<strong>${item.name}</strong><br>₹${item.price}`;
-                div.onclick = () => addToOrder(item);
-                menuContainer.appendChild(div);
-            });
+            const restaurant = document.getElementById("restaurant").value;
+            const menuDiv = document.getElementById("menu");
+            menuDiv.innerHTML = "";
+            
+            if (menus[restaurant]) {
+                menus[restaurant].forEach(item => {
+                    const div = document.createElement("div");
+                    div.className = "menu-item";
+                    div.innerHTML = `${item.name} - $${item.price} <button onclick='addToCart("${item.name}", ${item.price})'>Add</button>`;
+                    menuDiv.appendChild(div);
+                });
+            }
         }
-
-        function addToOrder(item) {
-            order.push(item);
-            updateOrderSummary();
+        
+        // Add item to cart
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
         }
-
-        function updateOrderSummary() {
-            orderList.innerHTML = "";
-            order.forEach((item, index) => {
-                const li = document.createElement("li");
-                li.textContent = `${item.name} - ₹${item.price}`;
-                orderList.appendChild(li);
-            });
-        }
-
-        function checkout() {
-            if (order.length === 0) {
-                alert("Your order is empty!");
+        
+        // Update cart display
+        function updateCart() {
+            const cartDiv = document.getElementById("cart");
+            cartDiv.innerHTML = "";
+            if (cart.length === 0) {
+                cartDiv.style.display = "none";
                 return;
             }
-            const total = order.reduce((sum, item) => sum + item.price, 0);
-            alert(`Total: ₹${total}\nThank you for ordering!`);
-            order = [];
-            updateOrderSummary();
+            cartDiv.style.display = "block";
+            cart.forEach(item => {
+                const div = document.createElement("div");
+                div.innerText = `${item.name} - $${item.price}`;
+                cartDiv.appendChild(div);
+            });
         }
-
-        loadMenu();
+        
+        // Place order
+        function placeOrder() {
+            if (cart.length === 0) {
+                alert("Cart is empty!");
+                return;
+            }
+            alert("Order placed successfully!");
+            cart = [];
+            updateCart();
+        }
     </script>
 </body>
 </html>
